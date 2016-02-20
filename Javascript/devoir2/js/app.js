@@ -20,27 +20,36 @@ window.addEventListener("load", function (){
     var select = document.createElement('select');
         select.setAttribute('id','list' );
 
-
-
-
-
     document.body.appendChild(formulaire);
+
+    var list = document.getElementById('list');
 
     //Mes functions
     function addOption() {
-            for (var i = 0, j = tabs.length; i < j; i++) {
-                var option = document.createElement('option');
-                var optionText = document.createTextNode(tabs[i]);
+        //var list = document.getElementById('list');
+
+        for (var i = 0, j = tabs.length; i < j; i++) {
+
+            var option = document.createElement('option');
+            var optionText = document.createTextNode(tabs[i]);
+
+                if(option[i] === select.options[0]){
+                        option.setAttribute('selected', 'selected');
+                        option.setAttribute('disabled', 'disabled');
+                }
                 option.appendChild(optionText);
                 select.appendChild(option);
-            }
 
-            p.appendChild(pText);
+
+            }
+        p.appendChild(pText);
             formulaire.appendChild(p);
             formulaire.appendChild(select);
 
         $notation.removeEventListener('click', addOption, false);
     }
+
+
 
     function listenSelect() {
             var $list = document.getElementById('list');
@@ -53,7 +62,7 @@ window.addEventListener("load", function (){
 
         function response($result) {
             if(xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 0) ){
-                console.log($result);
+                console.log('le resultat est ' + $result);
 
                 var div = document.getElementById('result1');
                 div.innerHTML = xhr.responseText;
@@ -63,6 +72,18 @@ window.addEventListener("load", function (){
         }
 
         xhr.addEventListener('readystatechange', response, false);
+    }
+
+
+    function lol () {
+        if(list.option == list.options[0]){
+            //var lol = list.options[0];
+            // console.log(lol);
+
+            option.setAttribute('selected', 'selected');
+            //option.setAttribute('disabled', 'disabled');
+            //}
+        }
     }
 
 
