@@ -86,12 +86,6 @@ window.addEventListener("load", function (){
         }
     }
 
-
-
-
-
-
-
     $notation.addEventListener('click', addOption, false);
     select.addEventListener('change', listenSelect, false);
 
