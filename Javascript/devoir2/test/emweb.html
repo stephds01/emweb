@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Javascript Perfectionnement - Exercice 1</title>
+
+    <script type="text/javascript">
+        window.addEventListener('load', function(event){
+            var titre1 = document.getElementsByTagName('h1')[1];
+            titre1.addEventListener('mousedown', function(event){
+                this.style.color='red';
+            } );
+            titre1.addEventListener('mouseup', function(event){
+                this.style.color='green';
+            } );
+        }, false);
+
+    </script>
+</head>
+<body>
+    <div id="header">
+        <img src="logo.gif" alt="Mon logo">
+    </div>
+<div id="content">
+    <ul id="nav">
+        <li><strong>Accueil</strong></li>
+        <li><a href="about.html">A propos</a></li>
+        <li><a href="articles.html">Articles</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div id="main">
+        <div class="article">
+            <h1>Article 2</h1>
+            <p>Un paragraphe</p>
+            <p class="important">Un paragraphe important</p>
+        </div>
+        <div class="article">
+            <h1>Article 2</h1>
+            <p>Un paragraphe</p>
+            <p class="important">Un paragraphe important</p>
+        </div>
+        <div class="article">
+            <h1>Article 3</h1>
+            <p>Un paragraphe</p>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

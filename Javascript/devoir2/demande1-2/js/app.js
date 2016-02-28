@@ -75,17 +75,6 @@ window.addEventListener("load", function (){
     }
 
 
-    function lol () {
-        if(list.option == list.options[0]){
-            //var lol = list.options[0];
-            // console.log(lol);
-
-            option.setAttribute('selected', 'selected');
-            //option.setAttribute('disabled', 'disabled');
-            //}
-        }
-    }
-
     $notation.addEventListener('click', addOption, false);
     select.addEventListener('change', listenSelect, false);
 

@@ -3,98 +3,106 @@
  */
 window.addEventListener("load", function (){
 
-    //Tableau
-    var tabs = ['Sélectionner la note', 'do', 're', 'mi', 'fa', 'sol', 'la', 'si'],
-        $notation = document.getElementById('notation');
-
-    //Mes Functions
-
-    var formulaire = document.createElement('form');
-        formulaire.setAttribute('method', 'get');
-        formulaire.setAttribute('action', 'php/requete.php');
+    //Je crée le btn notation,close & le formulaire
+    var $notation = document.getElementById('notation'),
+        close = document.createElement('button'),
+        closeText = document.createTextNode('X');
+        close.id="close";
+    var $formulaire = document.getElementById('formulaire');
 
 
-    var p = document.createElement('p');
-        pText = document.createTextNode('Choisissez une note pour obtenir son équivalent en notation américaine.');
 
-    var select = document.createElement('select');
-        select.setAttribute('id','list' );
+        //Qd je clique sur le btn notation
+        $notation.addEventListener('click', function (event) {
+            event.preventDefault ? event.preventDefault() : event.returnValue = false;
 
-    document.body.appendChild(formulaire);
+            //Si la class 'formulaireClass' existe
+            if($formulaire.classList.contains('formulaireClass')){
 
-    var list = document.getElementById('list');
-
-    //Mes functions
-    function addOption() {
-
-        for (var i = 0, j = tabs.length; i < j; i++) {
-
-            var option = document.createElement('option');
-            var optionText = document.createTextNode(tabs[i]);
-
-                if(option[i] === select.options[0]){
-                        option.setAttribute('selected', 'selected');
-                        option.setAttribute('disabled', 'disabled');
-                }
-                option.appendChild(optionText);
-                select.appendChild(option);
-
-
+                $notation.classList.toggle('notationClass');
+                close.classList.toggle('closeClass');
+                $formulaire.classList.toggle('formulaireClass');
             }
-        p.appendChild(pText);
-            formulaire.appendChild(p);
-            formulaire.appendChild(select);
+            //Sinon faire la requete Ajax
+            else {
 
-        $notation.removeEventListener('click', addOption, false);
-    }
+                var xhr = new XMLHttpRequest();
+                xhr.addEventListener('readystatechange', function () {
+
+                    //si l'etat == 4 & status == ok alors j' afficher
+                    if (xhr.readyState === 4 && xhr.status == "200") {
+
+                        $notation.setAttribute('class', 'notationClass');
+                        close.appendChild(closeText);
+                        document.body.appendChild(close);
+                        document.body.insertBefore(close, $notation);
+                        var div = document.getElementById('formulaire');
+
+                        div.innerHTML = xhr.responseText;
 
 
 
-    function listenSelect() {
-            var $list = document.getElementById('list');
 
-            console.log($list.options[$list.selectedIndex].innerHTML);
+                        //Ecoute le select
+                        var $noteChoisie = document.getElementById('noteChoisie');
+                        var $formulaire = document.getElementById('formulaire');
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('get','php/requete.php?note=' + $list.value ,true);
-        xhr.send();
 
-        function response($result) {
-            if(xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 0) ){
-                console.log('le resultat est ' + $result);
+                        $formulaire.addEventListener('change', function(event) {
+                            event.preventDefault ? event.preventDefault() : event.returnValue = false;
+                            //alert(note_choisie);
 
-                var div = document.getElementById('result1');
-                div.innerHTML = xhr.responseText;
-            } else {
-                console.log('Bahhhhh');
+                            var xhr = new XMLHttpRequest();
+                            xhr.addEventListener('readystatechange', function () {
+
+                                //si l'etat == 4 & status == ok alors j' afficher
+                                if (xhr.readyState === 4 && xhr.status == "200") {
+
+                                    var response = document.getElementById('response');
+
+                                    //alert(xhr.responseText);
+                                    response.innerHTML = xhr.responseText;
+                                } else {
+
+                                }
+                            },false);
+                            xhr.open('POST', $noteChoisie.action, true);
+                            xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded, charset=UTF-8");
+                            xhr.send('php/response.php?note=' + $noteChoisie.note_choisie);
+                        },false);
+
+
+
+
+
+
+                    }else {
+                        console.log('error code ' + xhr.status + ' : ' + xhr.statusText);
+                    }
+                }, false);
+
+                xhr.open('POST', 'php/requete.php?note=' + $formulaire.action, true);
+                xhr.send();
             }
-        }
+        }, false);
 
-        xhr.addEventListener('readystatechange', response, false);
+
+
+
+
+
+    //Function qd on clique sur le btn close
+    function buttonClose() {
+        $notation.classList.toggle('notationClass');
+        $formulaire.classList.toggle('formulaireClass');
+        close.classList.toggle('closeClass');
     }
-
-
-    function lol () {
-        if(list.option == list.options[0]){
-            //var lol = list.options[0];
-            // console.log(lol);
-
-            option.setAttribute('selected', 'selected');
-            //option.setAttribute('disabled', 'disabled');
-            //}
-        }
-    }
+    close.addEventListener('click', buttonClose, false);
 
 
 
 
-
-
-
-    $notation.addEventListener('click', addOption, false);
-    select.addEventListener('change', listenSelect, false);
-
-});
+},false);
 
 
 
